@@ -34,7 +34,7 @@ if (game.PlaceId == 16732694052) then
     local v15 = v14:CreateSection('Fishing');
     local v16 = v14:      
   CreateButton({
-        Name = 'Disable Death For Brine Pool, Volcano, Keepers Altar',
+        Name = 'Disable Death',
         Callback = function()
             while true do
                 local v198 = 0;
@@ -53,9 +53,9 @@ if (game.PlaceId == 16732694052) then
         end
     });
     local v17 = v14:CreateToggle({
-        Name = 'Auto Catch Legit',
+        Name = 'Auto Reel V1',
         CurrentValue = false,
-        Flag = 'AutoCatchLegit',
+        Flag = 'AutoReelV1',
         Callback = function(v58)
             local v59 = game:GetService('RunService');
             local v60 = game:GetService('Players');
@@ -157,9 +157,9 @@ if (game.PlaceId == 16732694052) then
         end
     });
     local v17 = v14:CreateToggle({
-        Name = 'Auto Catch OBVIOUS',
+        Name = 'Auto Reel V2',
         CurrentValue = false,
-        Flag = 'AutoCatchOBV',
+        Flag = 'AutoReelV2',
         Callback = function(v75)
             local v76 = game:GetService('ReplicatedStorage');
             local v77 = {
@@ -1168,7 +1168,7 @@ if (game.PlaceId == 16732694052) then
             end
         end
     });
-    local v14 = v13:CreateTab('Ghost Dupe', 11767069582);
+    local v14 = v13:CreateTab('tt Dupe', 11767069582);
     local v24 = game:GetService('VirtualInputManager');
     local v25 = game:GetService('GuiService');
     local v26 = game.Players.LocalPlayer;
