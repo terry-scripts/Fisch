@@ -1,0 +1,585 @@
+-----------------------------------
+-- Rayfield UI Setup
+-----------------------------------
+local Rayfield = loadstring(game:HttpGet('https://api.overhub.xyz/public/scripts/script/luckyUI.lua'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Over Hub",
+    Icon = 0,
+    LoadingTitle = "Loading...",
+    LoadingSubtitle = "by terry",
+    Theme = "Default",
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false,
+    ConfigurationSaving = {
+       Enabled = true,
+       FolderName = "overhub",
+       FileName = "over hub"
+    },
+    Discord = {
+       Enabled = false,
+       Invite = "",
+       RememberJoins = false
+    },
+    KeySystem = false,
+    KeySettings = {
+       Title = "RNG Script",
+       Subtitle = "Key System",
+       Note = "Key not required",
+       FileName = "Key",
+       SaveKey = true,
+       GrabKeyFromSite = false,
+       Key = {"Hello"}
+    }
+})
+
+-----------------------------------
+-- Blacklist Check
+-----------------------------------
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+
+local blacklist = {
+    5080636767,
+    1273962566,
+    7997266952
+}
+local customMessage = "You are blacklisted from using this script. Appeal via my Discord: moma1133222"
+
+local function isBlacklisted(id)
+    for _, bannedId in ipairs(blacklist) do
+        if bannedId == id then
+            return true
+        end
+    end
+    return false
+end
+
+if isBlacklisted(localPlayer.UserId) then
+    localPlayer:Kick(customMessage)
+    return
+end
+
+
+-----------------------------------
+-- Configuration Variables
+-----------------------------------
+local selectedPotions = {}
+local selectedBiomes = {}
+local usePotionsOnlyAtGlitch = false
+local displayStatsActive = false
+
+-----------------------------------
+-- Main Tab (Auto Farms / Obby)
+-----------------------------------
+local TabMain = Window:CreateTab("Auto farms", 4483362458)
+TabMain:CreateSection("Auto farm")
+local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+repeat task.wait() until character:FindFirstChild("HumanoidRootPart")
+local rootPart = character:FindFirstChild("HumanoidRootPart")
+local TweenService = game:GetService("TweenService")
+local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+------------------------------------------------
+-- Auto Collect Potion/Gold (Teleport)
+------------------------------------------------
+local autoCollectInstant = false
+TabMain:CreateToggle({
+   Name = "Auto Collect Potion/Gold (Teleport)",
+   CurrentValue = false,
+   Flag = "AutoCollectInstant",
+   Callback = function(Value)
+       autoCollectInstant = Value
+       if autoCollectInstant then
+           spawn(function()
+               while autoCollectInstant do
+                   local objectsFolder = workspace:FindFirstChild("NaturalIemSpawn")
+                   if objectsFolder then
+                       local items = objectsFolder:FindFirstChild("Objects")
+                       if items and #items:GetChildren() > 0 then
+                           local collectible = items:GetChildren()[1]
+                           if collectible then
+                               rootPart.CFrame = collectible.CFrame + Vector3.new(0, 3, 0)
+                               wait(0.5)
+                               local prompt = collectible:FindFirstChildWhichIsA("ProximityPrompt", true)
+                               if prompt then
+                                   fireproximityprompt(prompt)
+                               end
+                           end
+                       end
+                   end
+                   wait(1)
+               end
+           end)
+       end
+   end,
+})
+
+------------------------------------------------
+-- Auto Collect Potion/Gold (Tween)
+------------------------------------------------
+local autoCollectTween = false
+TabMain:CreateToggle({
+    Name = "Auto Collect Potion/Gold (Tween)",
+    CurrentValue = false,
+    Flag = "AutoCollectTween",
+    Callback = function(Value)
+        autoCollectTween = Value
+        if autoCollectTween then
+            spawn(function()
+                while autoCollectTween do
+                    local objectsFolder = workspace:FindFirstChild("NaturalIemSpawn")
+                    if objectsFolder then
+                        local items = objectsFolder:FindFirstChild("Objects")
+                        if items and #items:GetChildren() > 0 then
+                            local collectible = items:GetChildren()[1]
+                            if collectible and collectible:IsA("BasePart") then
+                                for _, part in ipairs(character:GetDescendants()) do
+                                    if part:IsA("BasePart") then
+                                        part.CanCollide = false
+                                    end
+                                end
+                                local targetCFrame = collectible.CFrame + Vector3.new(0, 3, 0)
+                                local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+                                local tween = TweenService:Create(rootPart, tweenInfo, {CFrame = targetCFrame})
+                                tween:Play()
+                                tween.Completed:Wait()
+                                local prompt = collectible:FindFirstChildWhichIsA("ProximityPrompt", true)
+                                if prompt then
+                                    fireproximityprompt(prompt)
+                                end
+                            end
+                        end
+                    end
+                    wait(1)
+                end
+            end)
+        end
+    end,
+})
+
+------------------------------------------------
+-- Remove Seats Button
+------------------------------------------------
+TabMain:CreateButton({
+    Name = "Remove Seats (for auto collect)",
+    Callback = function()
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:IsA("Seat") then
+                obj:Destroy()
+            end
+        end
+    end,
+})
+
+------------------------------------------------
+-- Auto Obby Luck (Instant Teleport)
+------------------------------------------------
+local obbyLuck = workspace:FindFirstChild("Obby Luck Platform")
+local canTeleport = false
+local teleportCooldown = false
+TabMain:CreateToggle({
+    Name = "Auto Obby Luck",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        canTeleport = Value
+        if not canTeleport then
+            teleportCooldown = false
+        end
+    end,
+})
+local function teleportToBox()
+    if canTeleport and not teleportCooldown and obbyLuck then
+        local model = obbyLuck:FindFirstChild("Model")
+        if model then
+            local box = model:FindFirstChild("Box")
+            if box and box:IsA("BasePart") then
+                local prompt = box:FindFirstChild("ProximityPrompt")
+                if prompt then
+                    rootPart.CFrame = box.CFrame + Vector3.new(0, 3, 0)
+                    task.wait(0.5)
+                    fireproximityprompt(prompt)
+                    teleportCooldown = true
+                    task.wait(60)
+                    teleportCooldown = false
+                end
+            end
+        end
+    end
+end
+game:GetService("RunService").Stepped:Connect(function()
+    if canTeleport and not teleportCooldown then
+        teleportToBox()
+    end
+end)
+
+------------------------------------------------
+-- AutoFarm Boosts (Instant Teleport)
+------------------------------------------------
+local autoFarm = false
+TabMain:CreateToggle({
+    Name = "AutoFarm Boosts (may not work on every executor)",
+    CurrentValue = false,
+    Flag = "AutoFarmToggle",
+    Callback = function(Value)
+        autoFarm = Value
+    end,
+})
+task.spawn(function()
+    while true do
+        if autoFarm then
+            local obbyLuck = workspace:FindFirstChild("Obby Luck Platform")
+            if obbyLuck then
+                local model = obbyLuck:FindFirstChild("Model")
+                if model then
+                    local box = model:FindFirstChild("Box")
+                    if box and box:IsA("BasePart") then
+                        local prompt = box:FindFirstChild("ProximityPrompt")
+                        if prompt then
+                            rootPart.CFrame = box.CFrame + Vector3.new(0, 3, 0)
+                            task.wait(0.1)
+                            for i = 1, 10 do
+                                fireproximityprompt(prompt)
+                                task.wait(0.01)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        task.wait(0.5)
+    end
+end)
+
+-----------------------------------
+-- GUIs Tab
+-----------------------------------
+local TabGUIS = Window:CreateTab("GUIS", 4483362458)
+TabGUIS:CreateButton({
+    Name = "Enable Merchant Buy Screen (if spawned)",
+    Callback = function()
+        local playerGui = game:GetService("Players").LocalPlayer.PlayerGui
+        local merchantUI = playerGui:FindFirstChild("VioletBuyGUI")
+        if merchantUI then
+            merchantUI.Enabled = true
+        else
+            warn("VioletBuyGUI not found; it might not have spawned yet.")
+        end
+    end,
+})
+
+TabGUIS:CreateButton({
+    Name = "Enable Potion Crafting",
+    Callback = function()
+        local playerGui = game:GetService("Players").LocalPlayer.PlayerGui
+        local potionUI = playerGui:FindFirstChild("CraftingWitch")
+        if potionUI then
+            potionUI.Enabled = true
+        else
+            warn("CraftingWitch not found.")
+        end
+    end,
+})
+
+TabGUIS:CreateButton({
+    Name = "Enable Glove Crafting",
+    Callback = function()
+        local playerGui = game:GetService("Players").LocalPlayer.PlayerGui
+        local gloveUI = playerGui:FindFirstChild("Crafting")
+        if gloveUI then
+            gloveUI.Enabled = true
+        else
+            warn("Crafting not found.")
+        end
+    end,
+})
+
+-----------------------------------
+-- Glove Switcher Tab
+-----------------------------------
+local TabUpdate = Window:CreateTab("Glove Switcher", 4483362458)
+TabUpdate:CreateParagraph({
+    Title = "Glove Switcher Info",
+    Content = "Ensure you own the Cybernetic Gauntlet. When you reach 8 rolls, the script auto-equips the gauntlet for double luck then re-equips your original glove. Choose the correct arm and verify you own the glove."
+})
+
+local autoRightArmSwitch = false
+local autoLeftArmSwitch = false
+
+TabUpdate:CreateToggle({
+    Name = "Auto Right Arm Switch",
+    CurrentValue = false,
+    Flag = "AutoRightArmSwitch",
+    Callback = function(Value)
+        autoRightArmSwitch = Value
+    end,
+})
+
+TabUpdate:CreateToggle({
+    Name = "Auto Left Arm Switch",
+    CurrentValue = false,
+    Flag = "AutoLeftArmSwitch",
+    Callback = function(Value)
+        autoLeftArmSwitch = Value
+    end,
+})
+
+local equipmentFolder = localPlayer:WaitForChild("Equipment", 5)
+local function getCurrentArmItem(armName)
+    if equipmentFolder then
+        local armObject = equipmentFolder:FindFirstChild(armName)
+        if armObject and armObject:IsA("StringValue") then
+            return armObject.Value
+        end
+    end
+    return nil
+end
+
+local function switchGlove(armName, gloveName)
+    local args = { gloveName, armName }
+    game:GetService("ReplicatedStorage")
+        :WaitForChild("GetRemoteEvents")
+        :WaitForChild("Backpack")
+        :WaitForChild("Interact")
+        :FireServer(unpack(args))
+end
+
+local luckBar = localPlayer:WaitForChild("PlayerGui")
+                     :WaitForChild("Main")
+                     :WaitForChild("Rolling")
+                     :WaitForChild("RollButton")
+                     :WaitForChild("LuckBar")
+
+local lastRoll = nil
+spawn(function()
+    while task.wait(0.1) do
+        local text = luckBar.Text
+        local currentRollStr = text:match("%[(%d+)%/")
+        if currentRollStr then
+            local currentRoll = tonumber(currentRollStr)
+            if currentRoll == 8 and lastRoll ~= 8 then
+                if autoRightArmSwitch then
+                    spawn(function()
+                        local originalRight = getCurrentArmItem("Right Arm")
+                        if originalRight then
+                            switchGlove("Right Arm", "Cybernetic Gauntlet")
+                            task.wait(2)
+                            switchGlove("Right Arm", originalRight)
+                        end
+                    end)
+                end
+                if autoLeftArmSwitch then
+                    spawn(function()
+                        local originalLeft = getCurrentArmItem("Left Arm")
+                        if originalLeft then
+                            switchGlove("Left Arm", "Cybernetic Gauntlet")
+                            task.wait(2)
+                            switchGlove("Left Arm", originalLeft)
+                        end
+                    end)
+                end
+            end
+            lastRoll = currentRoll
+        end
+    end
+end)
+
+-----------------------------------
+-- Auto Brew Tab (Multi-Craft UI)
+-----------------------------------
+local TabAutoBrew = Window:CreateTab("Auto brew", 4483362458)
+
+local autoBrew = false
+local potionsFolder = localPlayer:WaitForChild("Crafting"):WaitForChild("Potions")
+local potionNames = {}
+for _, potionFolder in ipairs(potionsFolder:GetChildren()) do
+    table.insert(potionNames, potionFolder.Name)
+end
+
+-- Global selections for multi-craft
+_G.SelectedPotions = {}
+_G.SelectedAuras = {}
+local potionsUI = {}
+local multiCraftActive = false
+
+-- Auto Brew Toggle (brews a single potion per cycle)
+TabAutoBrew:CreateToggle({
+    Name = "Auto Brew",
+    CurrentValue = false,
+    Callback = function(state)
+        autoBrew = state
+        if autoBrew then
+            spawn(function()
+                while autoBrew do
+                    if #_G.SelectedPotions > 0 then
+                        for _, potionName in ipairs(_G.SelectedPotions) do
+                            local args = {"Potions", potionName}
+                            game:GetService("ReplicatedStorage")
+                                :WaitForChild("GetRemoteEvents")
+                                :WaitForChild("Crafting")
+                                :WaitForChild("Craft")
+                                :InvokeServer(unpack(args))
+                            wait(0.05)
+                        end
+                    else
+                        wait(0.05)
+                    end
+                end
+            end)
+        end
+    end
+})
+
+-- Function to add an aura item for multi-craft
+local function addAuraItemCraft(potionName, auraName)
+    local args = {"Potions", potionName, "Aura", auraName, 1}
+    local addItemRemote = game:GetService("ReplicatedStorage")
+        :WaitForChild("GetRemoteEvents")
+        :WaitForChild("Crafting")
+        :WaitForChild("AddItem")
+    pcall(function()
+        addItemRemote:InvokeServer(unpack(args))
+    end)
+end
+
+-- Create Multi-Craft UI for a given number of slots (10 slots by default)
+local function createPotionsUI(count)
+    -- Create a toggle to start multi-craft on this tab
+    TabAutoBrew:CreateToggle({
+        Name = "Start Multi-Craft",
+        CurrentValue = false,
+        Callback = function(value)
+            multiCraftActive = value
+            if multiCraftActive then
+                spawn(function()
+                    while multiCraftActive do
+                        for i = 1, count do
+                            local chosenPotion = _G.SelectedPotions[i]
+                            local chosenAuras  = _G.SelectedAuras[i] or {}
+                            if chosenPotion and #chosenAuras > 0 then
+                                for _, auraName in ipairs(chosenAuras) do
+                                    addAuraItemCraft(chosenPotion, auraName)
+                                    task.wait(0.1)
+                                end
+                            end
+                        end
+                        task.wait(0.5)
+                    end
+                end)
+            end
+        end
+    })
+
+    for i = 1, count do
+        local section = TabAutoBrew:CreateSection("Potion #" .. i)
+        local potionDropdown = TabAutoBrew:CreateDropdown({
+            Name = "Select Potion #" .. i,
+            Options = potionNames,
+            CurrentOption = {},
+            MultipleOptions = false,
+            Callback = function(option)
+                if not option or #option == 0 then return end
+                local chosenPotion = option[1]
+                _G.SelectedPotions[i] = chosenPotion
+
+                local potionFolder = potionsFolder:FindFirstChild(chosenPotion)
+                if potionFolder then
+                    local auraFolder = potionFolder:FindFirstChild("Aura")
+                    if auraFolder then
+                        local auraNames = {}
+                        for _, auraItem in ipairs(auraFolder:GetChildren()) do
+                            table.insert(auraNames, auraItem.Name)
+                        end
+                        if potionsUI[i] and potionsUI[i].aurasDropdown then
+                            potionsUI[i].aurasDropdown:Refresh(auraNames, {})
+                        end
+                    else
+                        Rayfield:Notify({
+                            Title = "No Aura Folder",
+                            Content = "This potion has no Aura folder.",
+                            Duration = 5
+                        })
+                        if potionsUI[i] and potionsUI[i].aurasDropdown then
+                            potionsUI[i].aurasDropdown:Refresh({}, {})
+                        end
+                    end
+                else
+                    Rayfield:Notify({
+                        Title = "Potion Not Found",
+                        Content = "Potion folder not found in LocalPlayer.Crafting.Potions",
+                        Duration = 5
+                    })
+                    if potionsUI[i] and potionsUI[i].aurasDropdown then
+                        potionsUI[i].aurasDropdown:Refresh({}, {})
+                    end
+                end
+            end
+        })
+        local aurasDropdown = TabAutoBrew:CreateDropdown({
+            Name = "Select Auras for Potion #" .. i,
+            Options = {},
+            CurrentOption = {},
+            MultipleOptions = true,
+            Callback = function(option)
+                _G.SelectedAuras[i] = option
+            end
+        })
+        potionsUI[i] = {
+            section = section,
+            potionDropdown = potionDropdown,
+            aurasDropdown = aurasDropdown
+        }
+    end
+end
+
+createPotionsUI(10)
+
+
+-----------------------------------
+-- Merchant Auto-Buy Tab
+-----------------------------------
+local Tab = Window:CreateTab("Merchant Auto-Buy", 4483362458)
+Tab:CreateSection("Merchant")
+
+_G.PurchaseAmount = 0
+_G.AutoBuyEnabled = false
+
+Tab:CreateInput({
+    Name = "Purchase Amount",
+    PlaceholderText = "0",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(text)
+        local num = tonumber(text)
+        _G.PurchaseAmount = num or 10
+    end
+})
+
+Tab:CreateToggle({
+    Name = "Enable Auto-Buy",
+    CurrentValue = false,
+    Callback = function(value)
+        _G.AutoBuyEnabled = value
+    end
+})
+
+local function buyItemById(itemId)
+    local merchantEvent = game:GetService("ReplicatedStorage")
+        :WaitForChild("GetRemoteEvents")
+        :WaitForChild("Merchants")
+        :WaitForChild("BuyMerchantItem")
+    pcall(function()
+        merchantEvent:InvokeServer(itemId)
+    end)
+end
+
+spawn(function()
+    while task.wait(2) do
+        local success, stockData = pcall(function()
+            return game:GetService("ReplicatedStorage")
+                :WaitForChild("GetRemoteEvents")
+                :WaitForChild("Merchants")
+                :WaitForChild("GetCurrentStock")
+                :InvokeServer()
+        end)
+        if _G.
