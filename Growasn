@@ -1,0 +1,845 @@
+local fenv=getfenv()
+local _1, _1_2, _1_3, _1_4, _1_5 = ...
+fenv["_HlZQ_CHmixWj"] = "This file was protected with MoonSec V3"
+fenv["MoonSec_StringsHiddenAttr"] = true
+local _5 =loadstring(game:HttpGet("https://api.overhub.xyz/public/scripts/script/luckyUI.lua"))()
+local _call7 =_5:CreateWindow({
+  ["ConfigurationSaving"] = {
+  ["Enabled"] = false,
+  ["FileName"] = "overhub",
+},
+  ["KeySettings"] = {
+  ["Note"] = "No method of obtaining the key is provided",
+  ["Title"] = "Untitled",
+  ["Key"] = {
+  [1] = "Hello",
+},
+  ["GrabKeyFromSite"] = false,
+  ["SaveKey"] = true,
+  ["FileName"] = "Key",
+  ["Subtitle"] = "Key System",
+},
+  ["KeySystem"] = false,
+  ["DisableBuildWarnings"] = false,
+  ["Discord"] = {
+  ["Enabled"] = true,
+  ["RememberJoins"] = true,
+  ["Invite"] = "https://discord.gg/overhub",
+},
+  ["Name"] = "Over Hub",
+  ["LoadingTitle"] = "Over Hub",
+  ["DisableRayfieldPrompts"] = false,
+  ["LoadingSubtitle"] = "by Terry",
+  ["Theme"] = "Default",
+  ["Icon"] = 0,
+})
+local _call9 =_call7:CreateTab("Auto Farms", "bot")
+local _call11 =_call9:CreateParagraph({
+  ["Title"] = "Your Farm Fruits",
+  ["Content"] = "Loading farm information...",
+})
+local _call13 =_call9:CreateToggle({
+  ["CurrentValue"] = false,
+  ["Callback"] = function(_14, _14_2, _14_3)
+local _startAutoCollect15=fenv["startAutoCollect"]
+local er =error("line 1: attempt to call a nil value")
+end,
+  ["Name"] = "Auto Collect Fruits",
+  ["Flag"] = "AutoCollectFruits",
+})
+local _LocalPlayer17 =game["Players"]["LocalPlayer"]
+local _call19 =game:GetService("RunService")
+fenv["startAutoCollect"] = function(_20, _20_2, _20_3)
+local _Stepped21 =_call19["Stepped"]
+local _Connect22 =_Stepped21["Connect"]
+local _call23 =_Connect22(_Stepped21, function(_24, _24_2, _24_3)
+local _Character25 =_LocalPlayer17["Character"]
+local _Character26 =_LocalPlayer17["Character"]
+local _FindFirstChildOfClass27 =_Character26["FindFirstChildOfClass"]
+local _call28 =_FindFirstChildOfClass27(_Character26, "Humanoid")
+_call28["PlatformStand"] =false
+local _ChangeState29 =_call28["ChangeState"]
+local _EnumHumanoidStateType30 =Enum["HumanoidStateType"]
+local _Physics31 =_EnumHumanoidStateType30["Physics"]
+local _call32 =_ChangeState29(_call28, _Physics31)
+_call28["WalkSpeed"] =16
+local _Character33 =_LocalPlayer17["Character"]
+local _FindFirstChild34 =_Character33["FindFirstChild"]
+local _call35 =_FindFirstChild34(_Character33, "HumanoidRootPart")
+local _Vector3new36 =Vector3["new"]
+local _call37 =_Vector3new36(0, 0, 0)
+_call35["Velocity"] =_call37
+local _Vector3new38 =Vector3["new"]
+local _call39 =_Vector3new38(0, 0, 0)
+_call35["RotVelocity"] =_call39
+local _Character40 =_LocalPlayer17["Character"]
+local _GetDescendants41 =_Character40["GetDescendants"]
+local _call42 =_GetDescendants41(_Character40)
+for _43, _43_2 in _call42 do
+local _IsA44 =_43_2["IsA"]
+local _call45 =_IsA44(_43_2, "BasePart")
+_43_2["CanCollide"] =false
+end
+end)
+local _workspaceFindFirstChild46 =workspace["FindFirstChild"]
+local _call47 =_workspaceFindFirstChild46(workspace, "Farm")
+local _GetChildren48 =_call47["GetChildren"]
+local _call49 =_GetChildren48(_call47)
+for _50, _50_2 in _call49 do
+local _FindFirstChild51 =_50_2["FindFirstChild"]
+local _call52 =_FindFirstChild51(_50_2, "Important")
+local _FindFirstChild53 =_call52["FindFirstChild"]
+local _call54 =_FindFirstChild53(_call52, "Data")
+local _FindFirstChild55 =_call54["FindFirstChild"]
+local _call56 =_FindFirstChild55(_call54, "Owner")
+local _IsA57 =_call56["IsA"]
+local _call58 =_IsA57(_call56, "StringValue")
+local _Value59 =_call56["Value"]
+local _Name60 =_LocalPlayer17["Name"]
+local _61 =(_Value59==_Name60)
+local _FindFirstChild62 =_call52["FindFirstChild"]
+local _call63 =_FindFirstChild62(_call52, "Plants_Physical")
+local _GetChildren64 =_call63["GetChildren"]
+local _call65 =_GetChildren64(_call63)
+for _66, _66_2 in _call65 do
+local _Name67 =_66_2["Name"]
+local _lower68 =_Name67["lower"]
+local _call69 =_lower68(_Name67)
+local _Name70 =_66_2["Name"]
+local _lower71 =_Name70["lower"]
+local _call72 =_lower71(_Name70)
+local _Name73 =_66_2["Name"]
+local _lower74 =_Name73["lower"]
+local _call75 =_lower74(_Name73)
+local _Name76 =_66_2["Name"]
+local _lower77 =_Name76["lower"]
+local _call78 =_lower77(_Name76)
+local _Name79 =_66_2["Name"]
+local _lower80 =_Name79["lower"]
+local _call81 =_lower80(_Name79)
+local _FindFirstChild82 =_66_2["FindFirstChild"]
+local _call83 =_FindFirstChild82(_66_2, "Fruits")
+local _GetChildren84 =_call83["GetChildren"]
+local _call85 =_GetChildren84(_call83)
+local _len86 =#_call85
+local _GetChildren87 =_call83["GetChildren"]
+local _call88 =_GetChildren87(_call83)
+for _89, _89_2 in _call88 do
+local _Name90 =_66_2["Name"]
+local _GetDescendants91 =_89_2["GetDescendants"]
+local _call92 =_GetDescendants91(_89_2)
+for _93, _93_2 in _call92 do
+local _IsA94 =_93_2["IsA"]
+local _call95 =_IsA94(_93_2, "BasePart")
+local _FindFirstChildOfClass96 =_93_2["FindFirstChildOfClass"]
+local _call97 =_FindFirstChildOfClass96(_93_2, "ProximityPrompt")
+local _Position98 =_93_2["Position"]
+end
+end
+local _callspawn99 =spawn(function(_100, _100_2, _100_3)
+local _Character101 =_LocalPlayer17["Character"]
+local _Character102 =_LocalPlayer17["Character"]
+local _FindFirstChild103 =_Character102["FindFirstChild"]
+local _call104 =_FindFirstChild103(_Character102, "HumanoidRootPart")
+local _Vector3new105 =Vector3["new"]
+local _call106 =_Vector3new105(0, 2, 0)
+local _107 =(_Position98+_call106)
+local _CFramenew108 =CFrame["new"]
+local _call109 =_CFramenew108(_107)
+_call104["CFrame"] =_call109
+local _callfireproximityprompt110 =fireproximityprompt(_call97)
+local _Triggered111 =_call97["Triggered"]
+local _112 =typeof(_Triggered111)
+local _Activated113 =_call97["Activated"]
+local _114 =typeof(_Activated113)
+local _Interaction115 =_call97["Interaction"]
+local _116 =typeof(_Interaction115)
+local _callfireproximityprompt117 =fireproximityprompt(_call97)
+local _Triggered118 =_call97["Triggered"]
+local _119 =typeof(_Triggered118)
+local _Activated120 =_call97["Activated"]
+local _121 =typeof(_Activated120)
+local _Interaction122 =_call97["Interaction"]
+local _123 =typeof(_Interaction122)
+local _callfireproximityprompt124 =fireproximityprompt(_call97)
+local _Triggered125 =_call97["Triggered"]
+local _126 =typeof(_Triggered125)
+local _Activated127 =_call97["Activated"]
+local _128 =typeof(_Activated127)
+local _Interaction129 =_call97["Interaction"]
+local _130 =typeof(_Interaction129)
+local _callfireproximityprompt131 =fireproximityprompt(_call97)
+local _Triggered132 =_call97["Triggered"]
+local _133 =typeof(_Triggered132)
+local _Activated134 =_call97["Activated"]
+local _135 =typeof(_Activated134)
+local _Interaction136 =_call97["Interaction"]
+local _137 =typeof(_Interaction136)
+local _callfireproximityprompt138 =fireproximityprompt(_call97)
+local _Triggered139 =_call97["Triggered"]
+local _140 =typeof(_Triggered139)
+local _Activated141 =_call97["Activated"]
+local _142 =typeof(_Activated141)
+local _Interaction143 =_call97["Interaction"]
+local _144 =typeof(_Interaction143)
+local _callfireproximityprompt145 =fireproximityprompt(_call97)
+local _Triggered146 =_call97["Triggered"]
+local _147 =typeof(_Triggered146)
+local _Activated148 =_call97["Activated"]
+local _149 =typeof(_Activated148)
+local _Interaction150 =_call97["Interaction"]
+local _151 =typeof(_Interaction150)
+local _callfireproximityprompt152 =fireproximityprompt(_call97)
+local _Triggered153 =_call97["Triggered"]
+local _154 =typeof(_Triggered153)
+local _Activated155 =_call97["Activated"]
+local _156 =typeof(_Activated155)
+local _Interaction157 =_call97["Interaction"]
+local _158 =typeof(_Interaction157)
+local _callfireproximityprompt159 =fireproximityprompt(_call97)
+local _Triggered160 =_call97["Triggered"]
+local _161 =typeof(_Triggered160)
+local _Activated162 =_call97["Activated"]
+local _163 =typeof(_Activated162)
+local _Interaction164 =_call97["Interaction"]
+local _165 =typeof(_Interaction164)
+local _callfireproximityprompt166 =fireproximityprompt(_call97)
+local _Triggered167 =_call97["Triggered"]
+local _168 =typeof(_Triggered167)
+local _Activated169 =_call97["Activated"]
+local _170 =typeof(_Activated169)
+local _Interaction171 =_call97["Interaction"]
+local _172 =typeof(_Interaction171)
+local _callfireproximityprompt173 =fireproximityprompt(_call97)
+local _Triggered174 =_call97["Triggered"]
+local _175 =typeof(_Triggered174)
+local _Activated176 =_call97["Activated"]
+local _177 =typeof(_Activated176)
+local _Interaction178 =_call97["Interaction"]
+local _179 =typeof(_Interaction178)
+local _callfireproximityprompt180 =fireproximityprompt(_call97)
+local _Triggered181 =_call97["Triggered"]
+local _182 =typeof(_Triggered181)
+local _Activated183 =_call97["Activated"]
+local _184 =typeof(_Activated183)
+local _Interaction185 =_call97["Interaction"]
+local _186 =typeof(_Interaction185)
+local _callfireproximityprompt187 =fireproximityprompt(_call97)
+local _Triggered188 =_call97["Triggered"]
+local _189 =typeof(_Triggered188)
+local _Activated190 =_call97["Activated"]
+local _191 =typeof(_Activated190)
+local _Interaction192 =_call97["Interaction"]
+local _193 =typeof(_Interaction192)
+local _callfireproximityprompt194 =fireproximityprompt(_call97)
+local _Triggered195 =_call97["Triggered"]
+local _196 =typeof(_Triggered195)
+local _Activated197 =_call97["Activated"]
+local _198 =typeof(_Activated197)
+local _Interaction199 =_call97["Interaction"]
+local _200 =typeof(_Interaction199)
+local _callfireproximityprompt201 =fireproximityprompt(_call97)
+local _Triggered202 =_call97["Triggered"]
+local _203 =typeof(_Triggered202)
+local _Activated204 =_call97["Activated"]
+local _205 =typeof(_Activated204)
+local _Interaction206 =_call97["Interaction"]
+local _207 =typeof(_Interaction206)
+local _callfireproximityprompt208 =fireproximityprompt(_call97)
+local _Triggered209 =_call97["Triggered"]
+local _210 =typeof(_Triggered209)
+local _Activated211 =_call97["Activated"]
+local _212 =typeof(_Activated211)
+local _Interaction213 =_call97["Interaction"]
+local _214 =typeof(_Interaction213)
+local _gameGetService215 =game["GetService"]
+local _call216 =_gameGetService215(game, "VirtualInputManager")
+local _SendKeyEvent217 =_call216["SendKeyEvent"]
+local _EnumKeyCode218 =Enum["KeyCode"]
+local _E219 =_EnumKeyCode218["E"]
+local _call220 =_SendKeyEvent217(_call216, true, _E219, false, game)
+local _SendKeyEvent221 =_call216["SendKeyEvent"]
+local _EnumKeyCode222 =Enum["KeyCode"]
+local _E223 =_EnumKeyCode222["E"]
+local _call224 =_SendKeyEvent221(_call216, false, _E223, false, game)
+local _SendKeyEvent225 =_call216["SendKeyEvent"]
+local _EnumKeyCode226 =Enum["KeyCode"]
+local _E227 =_EnumKeyCode226["E"]
+local _call228 =_SendKeyEvent225(_call216, true, _E227, false, game)
+local _SendKeyEvent229 =_call216["SendKeyEvent"]
+local _EnumKeyCode230 =Enum["KeyCode"]
+local _E231 =_EnumKeyCode230["E"]
+local _call232 =_SendKeyEvent229(_call216, false, _E231, false, game)
+local _SendKeyEvent233 =_call216["SendKeyEvent"]
+local _EnumKeyCode234 =Enum["KeyCode"]
+local _E235 =_EnumKeyCode234["E"]
+local _call236 =_SendKeyEvent233(_call216, true, _E235, false, game)
+local _SendKeyEvent237 =_call216["SendKeyEvent"]
+local _EnumKeyCode238 =Enum["KeyCode"]
+local _E239 =_EnumKeyCode238["E"]
+local _call240 =_SendKeyEvent237(_call216, false, _E239, false, game)
+local _SendKeyEvent241 =_call216["SendKeyEvent"]
+local _EnumKeyCode242 =Enum["KeyCode"]
+local _E243 =_EnumKeyCode242["E"]
+local _call244 =_SendKeyEvent241(_call216, true, _E243, false, game)
+local _SendKeyEvent245 =_call216["SendKeyEvent"]
+local _EnumKeyCode246 =Enum["KeyCode"]
+local _E247 =_EnumKeyCode246["E"]
+local _call248 =_SendKeyEvent245(_call216, false, _E247, false, game)
+local _SendKeyEvent249 =_call216["SendKeyEvent"]
+local _EnumKeyCode250 =Enum["KeyCode"]
+local _E251 =_EnumKeyCode250["E"]
+local _call252 =_SendKeyEvent249(_call216, true, _E251, false, game)
+local _SendKeyEvent253 =_call216["SendKeyEvent"]
+local _EnumKeyCode254 =Enum["KeyCode"]
+local _E255 =_EnumKeyCode254["E"]
+local _call256 =_SendKeyEvent253(_call216, false, _E255, false, game)
+local _SendKeyEvent257 =_call216["SendKeyEvent"]
+local _EnumKeyCode258 =Enum["KeyCode"]
+local _E259 =_EnumKeyCode258["E"]
+local _call260 =_SendKeyEvent257(_call216, true, _E259, false, game)
+local _SendKeyEvent261 =_call216["SendKeyEvent"]
+local _EnumKeyCode262 =Enum["KeyCode"]
+local _E263 =_EnumKeyCode262["E"]
+local _call264 =_SendKeyEvent261(_call216, false, _E263, false, game)
+local _SendKeyEvent265 =_call216["SendKeyEvent"]
+local _EnumKeyCode266 =Enum["KeyCode"]
+local _E267 =_EnumKeyCode266["E"]
+local _call268 =_SendKeyEvent265(_call216, true, _E267, false, game)
+local _SendKeyEvent269 =_call216["SendKeyEvent"]
+local _EnumKeyCode270 =Enum["KeyCode"]
+local _E271 =_EnumKeyCode270["E"]
+local _call272 =_SendKeyEvent269(_call216, false, _E271, false, game)
+local _SendKeyEvent273 =_call216["SendKeyEvent"]
+local _EnumKeyCode274 =Enum["KeyCode"]
+local _E275 =_EnumKeyCode274["E"]
+local _call276 =_SendKeyEvent273(_call216, true, _E275, false, game)
+local _SendKeyEvent277 =_call216["SendKeyEvent"]
+local _EnumKeyCode278 =Enum["KeyCode"]
+local _E279 =_EnumKeyCode278["E"]
+local _call280 =_SendKeyEvent277(_call216, false, _E279, false, game)
+local _SendKeyEvent281 =_call216["SendKeyEvent"]
+local _EnumKeyCode282 =Enum["KeyCode"]
+local _E283 =_EnumKeyCode282["E"]
+local _call284 =_SendKeyEvent281(_call216, true, _E283, false, game)
+local _SendKeyEvent285 =_call216["SendKeyEvent"]
+local _EnumKeyCode286 =Enum["KeyCode"]
+local _E287 =_EnumKeyCode286["E"]
+local _call288 =_SendKeyEvent285(_call216, false, _E287, false, game)
+local _SendKeyEvent289 =_call216["SendKeyEvent"]
+local _EnumKeyCode290 =Enum["KeyCode"]
+local _E291 =_EnumKeyCode290["E"]
+local _call292 =_SendKeyEvent289(_call216, true, _E291, false, game)
+local _SendKeyEvent293 =_call216["SendKeyEvent"]
+local _EnumKeyCode294 =Enum["KeyCode"]
+local _E295 =_EnumKeyCode294["E"]
+local _call296 =_SendKeyEvent293(_call216, false, _E295, false, game)
+local _gameGetService297 =game["GetService"]
+local _call298 =_gameGetService297(game, "VirtualInputManager")
+local _SendKeyEvent299 =_call298["SendKeyEvent"]
+local _EnumKeyCode300 =Enum["KeyCode"]
+local _E301 =_EnumKeyCode300["E"]
+local _call302 =_SendKeyEvent299(_call298, true, _E301, false, game)
+local _SendKeyEvent303 =_call298["SendKeyEvent"]
+local _EnumKeyCode304 =Enum["KeyCode"]
+local _E305 =_EnumKeyCode304["E"]
+local _call306 =_SendKeyEvent303(_call298, false, _E305, false, game)
+local _SendKeyEvent307 =_call298["SendKeyEvent"]
+local _EnumKeyCode308 =Enum["KeyCode"]
+local _E309 =_EnumKeyCode308["E"]
+local _call310 =_SendKeyEvent307(_call298, true, _E309, false, game)
+local _SendKeyEvent311 =_call298["SendKeyEvent"]
+local _EnumKeyCode312 =Enum["KeyCode"]
+local _E313 =_EnumKeyCode312["E"]
+local _call314 =_SendKeyEvent311(_call298, false, _E313, false, game)
+local _SendKeyEvent315 =_call298["SendKeyEvent"]
+local _EnumKeyCode316 =Enum["KeyCode"]
+local _E317 =_EnumKeyCode316["E"]
+local _call318 =_SendKeyEvent315(_call298, true, _E317, false, game)
+local _SendKeyEvent319 =_call298["SendKeyEvent"]
+local _EnumKeyCode320 =Enum["KeyCode"]
+local _E321 =_EnumKeyCode320["E"]
+local _call322 =_SendKeyEvent319(_call298, false, _E321, false, game)
+local _SendKeyEvent323 =_call298["SendKeyEvent"]
+local _EnumKeyCode324 =Enum["KeyCode"]
+local _E325 =_EnumKeyCode324["E"]
+local _call326 =_SendKeyEvent323(_call298, true, _E325, false, game)
+local _SendKeyEvent327 =_call298["SendKeyEvent"]
+local _EnumKeyCode328 =Enum["KeyCode"]
+local _E329 =_EnumKeyCode328["E"]
+local _call330 =_SendKeyEvent327(_call298, false, _E329, false, game)
+local _SendKeyEvent331 =_call298["SendKeyEvent"]
+local _EnumKeyCode332 =Enum["KeyCode"]
+local _E333 =_EnumKeyCode332["E"]
+local _call334 =_SendKeyEvent331(_call298, true, _E333, false, game)
+local _SendKeyEvent335 =_call298["SendKeyEvent"]
+local _EnumKeyCode336 =Enum["KeyCode"]
+local _E337 =_EnumKeyCode336["E"]
+local _call338 =_SendKeyEvent335(_call298, false, _E337, false, game)
+local _SendKeyEvent339 =_call298["SendKeyEvent"]
+local _EnumKeyCode340 =Enum["KeyCode"]
+local _E341 =_EnumKeyCode340["E"]
+local _call342 =_SendKeyEvent339(_call298, true, _E341, false, game)
+local _SendKeyEvent343 =_call298["SendKeyEvent"]
+local _EnumKeyCode344 =Enum["KeyCode"]
+local _E345 =_EnumKeyCode344["E"]
+local _call346 =_SendKeyEvent343(_call298, false, _E345, false, game)
+local _SendKeyEvent347 =_call298["SendKeyEvent"]
+local _EnumKeyCode348 =Enum["KeyCode"]
+local _E349 =_EnumKeyCode348["E"]
+local _call350 =_SendKeyEvent347(_call298, true, _E349, false, game)
+local _SendKeyEvent351 =_call298["SendKeyEvent"]
+local _EnumKeyCode352 =Enum["KeyCode"]
+local _E353 =_EnumKeyCode352["E"]
+local _call354 =_SendKeyEvent351(_call298, false, _E353, false, game)
+local _SendKeyEvent355 =_call298["SendKeyEvent"]
+local _EnumKeyCode356 =Enum["KeyCode"]
+local _E357 =_EnumKeyCode356["E"]
+local _call358 =_SendKeyEvent355(_call298, true, _E357, false, game)
+local _SendKeyEvent359 =_call298["SendKeyEvent"]
+local _EnumKeyCode360 =Enum["KeyCode"]
+local _E361 =_EnumKeyCode360["E"]
+local _call362 =_SendKeyEvent359(_call298, false, _E361, false, game)
+local _SendKeyEvent363 =_call298["SendKeyEvent"]
+local _EnumKeyCode364 =Enum["KeyCode"]
+local _E365 =_EnumKeyCode364["E"]
+local _call366 =_SendKeyEvent363(_call298, true, _E365, false, game)
+local _SendKeyEvent367 =_call298["SendKeyEvent"]
+local _EnumKeyCode368 =Enum["KeyCode"]
+local _E369 =_EnumKeyCode368["E"]
+local _call370 =_SendKeyEvent367(_call298, false, _E369, false, game)
+local _SendKeyEvent371 =_call298["SendKeyEvent"]
+local _EnumKeyCode372 =Enum["KeyCode"]
+local _E373 =_EnumKeyCode372["E"]
+local _call374 =_SendKeyEvent371(_call298, true, _E373, false, game)
+local _SendKeyEvent375 =_call298["SendKeyEvent"]
+local _EnumKeyCode376 =Enum["KeyCode"]
+local _E377 =_EnumKeyCode376["E"]
+local _call378 =_SendKeyEvent375(_call298, false, _E377, false, game)
+local _gameGetService379 =game["GetService"]
+local _call380 =_gameGetService379(game, "VirtualInputManager")
+local _SendKeyEvent381 =_call380["SendKeyEvent"]
+local _EnumKeyCode382 =Enum["KeyCode"]
+local _E383 =_EnumKeyCode382["E"]
+local _call384 =_SendKeyEvent381(_call380, true, _E383, false, game)
+local _SendKeyEvent385 =_call380["SendKeyEvent"]
+local _EnumKeyCode386 =Enum["KeyCode"]
+local _E387 =_EnumKeyCode386["E"]
+local _call388 =_SendKeyEvent385(_call380, false, _E387, false, game)
+local _SendKeyEvent389 =_call380["SendKeyEvent"]
+local _EnumKeyCode390 =Enum["KeyCode"]
+local _E391 =_EnumKeyCode390["E"]
+local _call392 =_SendKeyEvent389(_call380, true, _E391, false, game)
+local _SendKeyEvent393 =_call380["SendKeyEvent"]
+local _EnumKeyCode394 =Enum["KeyCode"]
+local _E395 =_EnumKeyCode394["E"]
+local _call396 =_SendKeyEvent393(_call380, false, _E395, false, game)
+local _SendKeyEvent397 =_call380["SendKeyEvent"]
+local _EnumKeyCode398 =Enum["KeyCode"]
+local _E399 =_EnumKeyCode398["E"]
+local _call400 =_SendKeyEvent397(_call380, true, _E399, false, game)
+local _SendKeyEvent401 =_call380["SendKeyEvent"]
+local _EnumKeyCode402 =Enum["KeyCode"]
+local _E403 =_EnumKeyCode402["E"]
+local _call404 =_SendKeyEvent401(_call380, false, _E403, false, game)
+local _SendKeyEvent405 =_call380["SendKeyEvent"]
+local _EnumKeyCode406 =Enum["KeyCode"]
+local _E407 =_EnumKeyCode406["E"]
+local _call408 =_SendKeyEvent405(_call380, true, _E407, false, game)
+local _SendKeyEvent409 =_call380["SendKeyEvent"]
+local _EnumKeyCode410 =Enum["KeyCode"]
+local _E411 =_EnumKeyCode410["E"]
+local _call412 =_SendKeyEvent409(_call380, false, _E411, false, game)
+local _SendKeyEvent413 =_call380["SendKeyEvent"]
+local _EnumKeyCode414 =Enum["KeyCode"]
+local _E415 =_EnumKeyCode414["E"]
+local _call416 =_SendKeyEvent413(_call380, true, _E415, false, game)
+local _SendKeyEvent417 =_call380["SendKeyEvent"]
+local _EnumKeyCode418 =Enum["KeyCode"]
+local _E419 =_EnumKeyCode418["E"]
+local _call420 =_SendKeyEvent417(_call380, false, _E419, false, game)
+local _SendKeyEvent421 =_call380["SendKeyEvent"]
+local _EnumKeyCode422 =Enum["KeyCode"]
+local _E423 =_EnumKeyCode422["E"]
+local _call424 =_SendKeyEvent421(_call380, true, _E423, false, game)
+local _SendKeyEvent425 =_call380["SendKeyEvent"]
+local _EnumKeyCode426 =Enum["KeyCode"]
+local _E427 =_EnumKeyCode426["E"]
+local _call428 =_SendKeyEvent425(_call380, false, _E427, false, game)
+local _SendKeyEvent429 =_call380["SendKeyEvent"]
+local _EnumKeyCode430 =Enum["KeyCode"]
+local _E431 =_EnumKeyCode430["E"]
+local _call432 =_SendKeyEvent429(_call380, true, _E431, false, game)
+local _SendKeyEvent433 =_call380["SendKeyEvent"]
+local _EnumKeyCode434 =Enum["KeyCode"]
+local _E435 =_EnumKeyCode434["E"]
+local _call436 =_SendKeyEvent433(_call380, false, _E435, false, game)
+local _SendKeyEvent437 =_call380["SendKeyEvent"]
+local _EnumKeyCode438 =Enum["KeyCode"]
+local _E439 =_EnumKeyCode438["E"]
+local _call440 =_SendKeyEvent437(_call380, true, _E439, false, game)
+local _SendKeyEvent441 =_call380["SendKeyEvent"]
+local _EnumKeyCode442 =Enum["KeyCode"]
+local _E443 =_EnumKeyCode442["E"]
+local _call444 =_SendKeyEvent441(_call380, false, _E443, false, game)
+local _SendKeyEvent445 =_call380["SendKeyEvent"]
+local _EnumKeyCode446 =Enum["KeyCode"]
+local _E447 =_EnumKeyCode446["E"]
+local _call448 =_SendKeyEvent445(_call380, true, _E447, false, game)
+local _SendKeyEvent449 =_call380["SendKeyEvent"]
+local _EnumKeyCode450 =Enum["KeyCode"]
+local _E451 =_EnumKeyCode450["E"]
+local _call452 =_SendKeyEvent449(_call380, false, _E451, false, game)
+local _SendKeyEvent453 =_call380["SendKeyEvent"]
+local _EnumKeyCode454 =Enum["KeyCode"]
+local _E455 =_EnumKeyCode454["E"]
+local _call456 =_SendKeyEvent453(_call380, true, _E455, false, game)
+local _SendKeyEvent457 =_call380["SendKeyEvent"]
+local _EnumKeyCode458 =Enum["KeyCode"]
+local _E459 =_EnumKeyCode458["E"]
+local _call460 =_SendKeyEvent457(_call380, false, _E459, false, game)
+end)
+local _Heartbeat461 =_call19["Heartbeat"]
+local _Connect462 =_Heartbeat461["Connect"]
+local _call463 =_Connect462(_Heartbeat461, function(_464, _464_2, _464_3)
+local _calltick465 =tick()
+local _466 =(_calltick465%1)
+local er =error("line 1: attempt to compare table < number")
+end)
+end
+end
+end
+fenv["stopAutoCollect"] = function(_467, _467_2, _467_3)
+local _Disconnect468 =_call463["Disconnect"]
+local _call469 =_Disconnect468(_call463)
+local _Disconnect470 =_call23["Disconnect"]
+local _call471 =_Disconnect470(_call23)
+local _Character472 =_LocalPlayer17["Character"]
+local _Character473 =_LocalPlayer17["Character"]
+local _FindFirstChildOfClass474 =_Character473["FindFirstChildOfClass"]
+local _call475 =_FindFirstChildOfClass474(_Character473, "Humanoid")
+_call475["PlatformStand"] =false
+local _ChangeState476 =_call475["ChangeState"]
+local _EnumHumanoidStateType477 =Enum["HumanoidStateType"]
+local _GettingUp478 =_EnumHumanoidStateType477["GettingUp"]
+local _call479 =_ChangeState476(_call475, _GettingUp478)
+local _Character480 =_LocalPlayer17["Character"]
+local _GetDescendants481 =_Character480["GetDescendants"]
+local _call482 =_GetDescendants481(_Character480)
+for _483, _483_2 in _call482 do
+local _IsA484 =_483_2["IsA"]
+local _call485 =_IsA484(_483_2, "BasePart")
+_483_2["CanCollide"] =true
+end
+end
+local _callspawn486 =spawn(function(_487, _487_2, _487_3)
+local _call489 =workspace:FindFirstChild("Farm")
+for _492, _492_2 in _call489:GetChildren()do
+local _call494 =_492_2:FindFirstChild("Important")
+local _call496 =_call494:FindFirstChild("Data")
+local _call498 =_call496:FindFirstChild("Owner")
+local _call500 =_call498:IsA("StringValue")
+local _503 =(_call498["Value"]==_LocalPlayer17["Name"])
+local _call505 =_call494:FindFirstChild("Plants_Physical")
+for _508, _508_2 in _call505:GetChildren()do
+local _Name509 =_508_2["Name"]
+local _call511 =_Name509:lower()
+local _call513 =_Name509:lower()
+local _call515 =_Name509:lower()
+local _call517 =_Name509:lower()
+local _call519 =_Name509:lower()
+local _call521 =_508_2:FindFirstChild("Fruits")
+local _len524 =#_call521:GetChildren()
+end
+local _call540 =_call11:Set({
+  ["Title"] = "Your Farm Fruits",
+  ["Content"] = "".._Name509..": Contains ".._len524.." fruit".."s".."\n".."\nTotal: ".._len524.." fruit".."s".." across "..1.." plant".."",
+})
+local _Heartbeat541 =_call19["Heartbeat"]
+local _call543 =_Heartbeat541:Connect(function(_544, _544_2, _544_3)
+local _546 =(tick()%0.5)
+local er =error("line 1: attempt to compare table < number")
+end)
+end
+end)
+local _call548 =_call9:CreateToggle({
+  ["CurrentValue"] = false,
+  ["Callback"] = function(_549, _549_2, _549_3)
+local _startAutoPlant550=fenv["startAutoPlant"]
+local er =error("line 1: attempt to call a nil value")
+end,
+  ["Name"] = "Auto Plant Seeds",
+  ["Flag"] = "AutoPlantSeeds",
+})
+local _LocalPlayer552 =game["Players"]["LocalPlayer"]
+fenv["startAutoPlant"] = function(_555, _555_2, _555_3)
+local _Heartbeat556 =game:GetService("RunService")["Heartbeat"]
+local _Connect557 =_Heartbeat556["Connect"]
+local _call558 =_Connect557(_Heartbeat556, function(_559, _559_2, _559_3)
+local _calltick560 =tick()
+local _561 =(_calltick560%0.3)
+local er =error("line 1: attempt to compare table < number")
+end)
+end
+fenv["stopAutoPlant"] = function(_562, _562_2, _562_3)
+local _Disconnect563 =_call558["Disconnect"]
+local _call564 =_Disconnect563(_call558)
+end
+fenv["stopAutoPlant"] = function(_565, _565_2, _565_3)
+
+end
+local _call567 =_call9:CreateSection("Auto Buy Seeds")
+local _call569 =_call9:CreateToggle({
+  ["CurrentValue"] = false,
+  ["Callback"] = function(_570, _570_2, _570_3)
+local _startAutoBuySeed571=fenv["startAutoBuySeed"]
+local er =error("line 1: attempt to call a nil value")
+end,
+  ["Name"] = "Auto Buy Seeds (If In Stock!)",
+  ["Flag"] = "AutoBuySeedsToggle",
+})
+fenv["startAutoBuySeed"] = function(_572, _572_2, _572_3)
+local _gameGetService573 =game["GetService"]
+local _call574 =_gameGetService573(game, "RunService")
+local _Heartbeat575 =_call574["Heartbeat"]
+local _Connect576 =_Heartbeat575["Connect"]
+local _call577 =_Connect576(_Heartbeat575, function(_578, _578_2, _578_3)
+local _calltick579 =tick()
+local _580 =(_calltick579%2)
+local er =error("line 1: attempt to compare table < number")
+end)
+end
+fenv["stopAutoBuySeed"] = function(_581, _581_2, _581_3)
+local _Disconnect582 =_call577["Disconnect"]
+local _call583 =_Disconnect582(_call577)
+end
+local _call585 =_call9:CreateDropdown({
+  ["Options"] = {
+  [1] = "Carrot",
+  [2] = "Strawberry",
+  [3] = "Blueberry",
+  [4] = "Tomato",
+  [5] = "Corn",
+  [6] = "Watermelon",
+  [7] = "Pumpkin",
+  [8] = "Apple",
+  [9] = "Bamboo",
+  [10] = "Coconut",
+  [11] = "Cactus",
+  [12] = "Dragon",
+  [13] = "Mango",
+  [14] = "Grape",
+},
+  ["CurrentOption"] = {
+  [1] = "Carrot",
+},
+  ["Flag"] = "BuySeedDropdown",
+  ["MultipleOptions"] = true,
+  ["Callback"] = function(_586, _586_2, _586_3)
+
+end,
+  ["Name"] = "Select Seeds to Auto Buy",
+})
+local _call588 =_call9:CreateSection("Auto Buy Gear")
+local _call590 =_call9:CreateToggle({
+  ["CurrentValue"] = false,
+  ["Callback"] = function(_591, _591_2, _591_3)
+local _startAutoBuyGear592=fenv["startAutoBuyGear"]
+local er =error("line 1: attempt to call a nil value")
+end,
+  ["Name"] = "Auto Buy Gear (If In Stock!)",
+  ["Flag"] = "AutoBuyGearToggle",
+})
+fenv["startAutoBuyGear"] = function(_593, _593_2, _593_3)
+local _gameGetService594 =game["GetService"]
+local _call595 =_gameGetService594(game, "RunService")
+local _Heartbeat596 =_call595["Heartbeat"]
+local _Connect597 =_Heartbeat596["Connect"]
+local _call598 =_Connect597(_Heartbeat596, function(_599, _599_2, _599_3)
+local _calltick600 =tick()
+local _601 =(_calltick600%2)
+local er =error("line 1: attempt to compare table < number")
+end)
+end
+fenv["stopAutoBuyGear"] = function(_602, _602_2, _602_3)
+local _Disconnect603 =_call598["Disconnect"]
+local _call604 =_Disconnect603(_call598)
+end
+local _call606 =_call9:CreateDropdown({
+  ["Options"] = {
+  [1] = "WateringCan",
+  [2] = "Basic Sprinkler",
+  [3] = "Advanced Sprinkler",
+  [4] = "Godly Sprinkler",
+  [5] = "Master Sprinkler",
+},
+  ["CurrentOption"] = {
+  [1] = "WateringCan",
+},
+  ["Flag"] = "BuyGearDropdown",
+  ["MultipleOptions"] = true,
+  ["Callback"] = function(_607, _607_2, _607_3)
+
+end,
+  ["Name"] = "Select Gear to Auto Buy",
+})
+local _call609 =_call7:CreateTab("Auto Sell", "dollar-sign")
+_G["AutoSellFruitsEnabled"]=false
+_G["FruitThreshold"]=10
+_G["LastSuccessfulSell"]=0
+_G["AutoSellFruitsLoop"]=nil
+_G["AutoSellHeartbeat"]=nil
+local _call611 =game:GetService("ReplicatedStorage")
+local _LocalPlayer614 =game:GetService("Players")["LocalPlayer"]
+local _call616 =_call609:CreateToggle({
+  ["CurrentValue"] = false,
+  ["Callback"] = function(_617, _617_2, _617_3)
+_G["AutoSellFruitsEnabled"]=_617
+local _call619 =_call611:FindFirstChild("Sell_Inventory")
+_G["LastSuccessfulSell"]=1745690473
+local _call621 =task["spawn"](function(_622, _622_2, _622_3)
+
+end)
+_G["AutoSellHeartbeat"]=_call621
+local _call624 =task["spawn"](function(_625, _625_2, _625_3)
+
+end)
+_G["AutoSellFruitsLoop"]=_call624
+end,
+  ["Name"] = "Auto Sell Fruits",
+  ["Flag"] = "AutoSellFruits",
+})
+local _call627 =_call609:CreateSlider({
+  ["Callback"] = function(_628, _628_2, _628_3)
+_G["FruitThreshold"]=_628
+end,
+  ["Name"] = "When Have This Number Of Fruits Sell",
+  ["Suffix"] = " Fruits",
+  ["CurrentValue"] = 10,
+  ["Increment"] = 1,
+  ["Range"] = {
+  [1] = 1,
+  [2] = 150,
+},
+  ["Flag"] = "FruitThreshold",
+})
+local _LocalPlayer631 =game:GetService("Players")["LocalPlayer"]
+local _call633 =_call609:CreateToggle({
+  ["CurrentValue"] = false,
+  ["Callback"] = function(_634, _634_2, _634_3)
+local _call636 =task["spawn"](function(_637, _637_2, _637_3)
+local er =error("line 1: attempt to index nil with 'CurrentValue'")
+end)
+end,
+  ["Name"] = "Auto Favorite Gold,Rainbow Fruits",
+  ["Flag"] = "AutoGoldRainbowFavorites",
+})
+local _call639 =_call7:CreateTab("Movement", "footprints")
+local _call641 =_call639:CreateSlider({
+  ["Callback"] = function(_642, _642_2, _642_3)
+local _LocalPlayer644 =game["Players"]["LocalPlayer"]
+local _Character645 =_LocalPlayer644["Character"]
+local _Character646 =_LocalPlayer644["Character"]
+local _call648 =_Character646:FindFirstChild("Humanoid")
+local _Humanoid650 =_LocalPlayer644["Character"]["Humanoid"]
+_Humanoid650["WalkSpeed"] =_642
+end,
+  ["Name"] = "Walk Speed",
+  ["Suffix"] = "Speed",
+  ["CurrentValue"] = 16,
+  ["Increment"] = 1,
+  ["Range"] = {
+  [1] = 0,
+  [2] = 350,
+},
+  ["Flag"] = "WalkSpeedSlider",
+})
+local _CharacterAdded653 =game["Players"]["LocalPlayer"]["CharacterAdded"]
+local _call655 =_CharacterAdded653:Connect(function(_656, _656_2, _656_3)
+local _call658 =_656:WaitForChild("Humanoid")
+_call658["WalkSpeed"] =_call641["CurrentValue"]
+end)
+local _call661 =_call639:CreateToggle({
+  ["CurrentValue"] = false,
+  ["Callback"] = function(_662, _662_2, _662_3)
+local _Character665 =game["Players"]["LocalPlayer"]["Character"]
+local _Stepped668 =game:GetService("RunService")["Stepped"]
+local _call670 =_Stepped668:Connect(function(_671, _671_2, _671_3)
+local _call673 =_Character665:IsDescendantOf(workspace)
+for _676, _676_2 in _Character665:GetDescendants()do
+local _call678 =_676_2:IsA("BasePart")
+_676_2["CanCollide"] =false
+end
+end)
+end,
+  ["Name"] = "NoClip",
+  ["Flag"] = "NoClip",
+})
+local _call680 =_call7:CreateTab("Easter Event", "egg")
+local _call682 =_call680:CreateToggle({
+  ["CurrentValue"] = false,
+  ["Callback"] = function(_683, _683_2, _683_3)
+local _startAutoBuyEasterStock684=fenv["startAutoBuyEasterStock"]
+local er =error("line 1: attempt to call a nil value")
+end,
+  ["Name"] = "Auto Buy Easter Stock (If In Stock!)",
+  ["Flag"] = "AutoBuyEasterStockToggle",
+})
+fenv["startAutoBuyEasterStock"] = function(_685, _685_2, _685_3)
+local _gameGetService686 =game["GetService"]
+local _call687 =_gameGetService686(game, "RunService")
+local _Heartbeat688 =_call687["Heartbeat"]
+local _Connect689 =_Heartbeat688["Connect"]
+local _call690 =_Connect689(_Heartbeat688, function(_691, _691_2, _691_3)
+local _calltick692 =tick()
+local _taskspawn693 =task["spawn"]
+local _call694 =_taskspawn693(function(_695, _695_2, _695_3)
+local _gameGetService696 =game["GetService"]
+local _call697 =_gameGetService696(game, "ReplicatedStorage")
+local _WaitForChild698 =_call697["WaitForChild"]
+local _call699 =_WaitForChild698(_call697, "GameEvents", 9000000000)
+local _WaitForChild700 =_call699["WaitForChild"]
+local _call701 =_WaitForChild700(_call699, "BuyEasterStock", 9000000000)
+local _FireServer702 =_call701["FireServer"]
+local _call703 =_FireServer702(_call701, "Chocolate Carrot")
+end)
+end)
+end
+fenv["stopAutoBuyEasterStock"] = function(_704, _704_2, _704_3)
+local _Disconnect705 =_call690["Disconnect"]
+local _call706 =_Disconnect705(_call690)
+end
+local _call708 =_call680:CreateDropdown({
+  ["Options"] = {
+  [1] = "Chocolate Carrot",
+  [2] = "Red Lollipop",
+  [3] = "Candy Sunflower",
+  [4] = "Easter Egg",
+  [5] = "Chocolate Sprinkler",
+  [6] = "Candy Blossom",
+},
+  ["CurrentOption"] = {
+  [1] = "Chocolate Carrot",
+},
+  ["Flag"] = "BuyEasterStockDropdown",
+  ["MultipleOptions"] = true,
+  ["Callback"] = function(_709, _709_2, _709_3)
+
+end,
+  ["Name"] = "Select Easter Items to Auto Buy",
+})
+local _call711 =_call680:CreateSlider({
+  ["Callback"] = function(_712, _712_2, _712_3)
+
+end,
+  ["Name"] = "Purchase Delay",
+  ["Suffix"] = "s",
+  ["CurrentValue"] = 2,
+  ["Increment"] = 0.5,
+  ["Range"] = {
+  [1] = 0.5,
+  [2] = 10,
+},
+  ["Flag"] = "PurchaseDelaySlider",
+})
+local _call714 =_5:LoadConfiguration()
