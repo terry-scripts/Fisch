@@ -1,0 +1,1263 @@
+-- Load Rayfield Library
+local Rayfield = loadstring(game:HttpGet('https://api.overhub.xyz/public/scripts/script/luckyUI.lua'))()
+
+-- Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
+local StarterGui = game:GetService("StarterGui")
+
+-- Local Player
+local LocalPlayer = Players.LocalPlayer
+
+-- Variables for Features (Obfuscated Names)
+local x1 = false -- AimbotEnabled
+local x2 = "Blatant" -- AimbotMode
+local x3 = 100 -- AimbotFOV
+local x4 = 0.1 -- AimbotSmoothness
+local x5 = false -- SilentAimEnabled
+local x6 = false -- ESPEnabled
+local x7 = false -- MagnetCatchEnabled
+local x8 = 10 -- MagnetStrength
+local x9 = false -- SpeedBoostEnabled
+local x10 = 50 -- SpeedBoostValue
+local x11 = false -- InfiniteJumpEnabled
+local x12 = false -- AutoCatchEnabled
+local x13 = false -- TackleAimbotEnabled
+local x14 = false -- NoClipEnabled
+local x15 = false -- FakeLagEnabled
+local x16 = 0.1 -- FakeLagIntensity
+local x17 = false -- PanicMode
+local x18 = false -- AutoDodgeEnabled
+local x19 = false -- BallPredictionEnabled
+local x20 = {} -- ESPTracers
+local x21 = {} -- ESPNames
+local x22 = {} -- ESPHealthBars
+local x23 = false -- AntiSpectatorEnabled
+local x24 = false -- DebugModeEnabled
+local x25 = false -- AutoPlayEnabled
+local x26 = "Safe" -- AutoPlayMode
+local x27 = {} -- TargetedPlayers
+local x28 = false -- HumanBehaviorEnabled
+local x29 = false -- OverlayEnabled
+local x30 = 100 -- ESPRange
+local x31 = {} -- Profiles
+local x32 = 0.5 -- StealthLevel (New)
+local x33 = 0.1 -- HumanBehaviorFrequency (New)
+local x34 = 50 -- SafetyThreshold (New)
+local x35 = false -- FOVCircleEnabled (New)
+local x36 = 1 -- FOVCircleOpacity (New)
+local x37 = false -- TeleportToBallEnabled (New)
+local x38 = 0.5 -- TeleportSmoothness (New)
+local x39 = 2 -- ESPLineThickness (New)
+local x40 = 16 -- ESPTextSize (New)
+local x41 = 1 -- ESPTransparency (New)
+local x42 = 0.1 -- UpdateFrequency (New)
+local x43 = false -- PerformanceModeEnabled (New)
+
+-- Create Main GUI Window
+local Window = Rayfield:CreateWindow({
+    Name = "Over Hub",
+    LoadingTitle = "Over Hub",
+    LoadingSubtitle = "by Terry",
+    ConfigurationSaving = {
+        Enabled = true,
+        FileName = "OverHub"
+    },
+    KeySystem = false
+})
+
+-- Create Tabs
+local DashboardTab = Window:CreateTab("Dashboard", nil)
+local MainTab = Window:CreateTab("Main", nil)
+local AimbotTab = Window:CreateTab("Aimbot", nil)
+local ESPTab = Window:CreateTab("ESP", nil)
+local PlayerModsTab = Window:CreateTab("Player Mods", nil)
+local AntiDetectionTab = Window:CreateTab("Anti-Detection", nil)
+local SettingsTab = Window:CreateTab("Settings", nil)
+local KeyBindsTab = Window:CreateTab("Key Binds", nil)
+
+-- Notify User on Load
+Rayfield:Notify({
+    Title = "Over Hub Loaded",
+    Content = "script loaded successfully.",
+    Duration = 5
+})
+
+-- Function to Simulate Mouse Input (Placeholder for Undetectability)
+local function SimulateMouseInput(targetPosition)
+    local mouse = LocalPlayer:GetMouse()
+    local screenPos, onScreen = Workspace.CurrentCamera:WorldToScreenPoint(targetPosition)
+    if onScreen then
+        -- Simulate mouse movement (requires exploit-specific API)
+    end
+end
+
+-- Function to Check if Spectated
+local function IsSpectated()
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.CameraMode == Enum.CameraMode.LockFirstPerson and player.CameraSubject == LocalPlayer.Character then
+            return true
+        end
+    end
+    return false
+end
+
+-- Function to Check Game State (Context-Aware Features)
+local function IsGameActive()
+    -- Placeholder: Check if the game is in a playable state (e.g., not in timeout or menu)
+    return true -- Replace with actual game state check if available
+end
+
+-- Function to Find Closest Player for Aimbot
+local function y1(targetSpecificPlayers)
+    local closestPlayer = nil
+    local shortestDistance = x3
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            if not targetSpecificPlayers or table.find(x27, player.Name) then
+                local distance = (LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+                if distance < shortestDistance then
+                    shortestDistance = distance
+                    closestPlayer = player
+                end
+            end
+        end
+    end
+
+    return closestPlayer
+end
+
+-- Quarterback Aimbot Function (Improved)
+local function y2()
+    if not x1 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    local closestPlayer = y1(true)
+    if not closestPlayer or not closestPlayer.Character then return end
+
+    local targetPart = closestPlayer.Character:FindFirstChild("Head")
+    if not targetPart then return end
+
+    local distance = (LocalPlayer.Character.HumanoidRootPart.Position - targetPart.Position).Magnitude
+    local dynamicFOV = math.min(x3, distance * 1.5)
+
+    local aimOffset = Vector3.new(0, 0, 0)
+    if x2 == "Legit" then
+        if math.random() > 0.95 then
+            aimOffset = Vector3.new(math.random(-5, 5), math.random(-5, 5), math.random(-5, 5))
+        else
+            aimOffset = Vector3.new(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1)) * 0.5
+        end
+    end
+
+    local football = Workspace:FindFirstChild("Football")
+    if football and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local aimDirection = (targetPart.Position + aimOffset - LocalPlayer.Character.HumanoidRootPart.Position).Unit
+        local currentVelocity = football.Velocity
+        local targetVelocity = aimDirection * (100 * x32) -- Adjusted by Stealth Level
+        football.Velocity = currentVelocity:Lerp(targetVelocity, x4)
+        SimulateMouseInput(targetPart.Position)
+    end
+end
+
+-- Silent Aim Function (Improved)
+local function y3()
+    if not x5 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    local closestPlayer = y1(true)
+    if not closestPlayer or not closestPlayer.Character then return end
+
+    local targetPart = closestPlayer.Character:FindFirstChild("Head")
+    if not targetPart then return end
+
+    local football = Workspace:FindFirstChild("Football")
+    if football and football.Position then
+        local distance = (football.Position - targetPart.Position).Magnitude
+        if distance < 50 then
+            local aimDirection = (targetPart.Position - football.Position).Unit
+            football.Velocity = aimDirection * (100 * x32) -- Adjusted by Stealth Level
+        end
+    end
+end
+
+-- ESP Function (Improved with Range)
+local function y4(player)
+    if player == LocalPlayer or not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return end
+
+    local tracer = Drawing.new("Line")
+    tracer.Visible = false
+    tracer.Thickness = x39
+    tracer.Transparency = x41
+
+    local nameTag = Drawing.new("Text")
+    nameTag.Visible = false
+    nameTag.Size = x40
+    nameTag.Center = true
+    nameTag.Outline = true
+    nameTag.Font = Drawing.Fonts.Plex
+    nameTag.Color = Color3.fromRGB(255, 255, 255)
+
+    local healthBar = Drawing.new("Square")
+    healthBar.Visible = false
+    healthBar.Thickness = 1
+    healthBar.Filled = true
+
+    x20[player] = tracer
+    x21[player] = nameTag
+    x22[player] = healthBar
+end
+
+local function y5()
+    if not x6 or x17 then
+        for _, tracer in pairs(x20) do tracer.Visible = false end
+        for _, name in pairs(x21) do name.Visible = false end
+        for _, bar in pairs(x22) do bar.Visible = false end
+        return
+    end
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if not x20[player] then
+            y4(player)
+        end
+
+        local tracer = x20[player]
+        local nameTag = x21[player]
+        local healthBar = x22[player]
+
+        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character:FindFirstChild("Humanoid") then
+            local rootPart = player.Character.HumanoidRootPart
+            local humanoid = player.Character.Humanoid
+            local distance = (LocalPlayer.Character.HumanoidRootPart.Position - rootPart.Position).Magnitude
+            if distance > x30 then
+                tracer.Visible = false
+                nameTag.Visible = false
+                healthBar.Visible = false
+                return
+            end
+
+            local screenPos, onScreen = Workspace.CurrentCamera:WorldToViewportPoint(rootPart.Position)
+            if onScreen then
+                local teamColor = player.TeamColor == LocalPlayer.TeamColor and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+                tracer.Color = teamColor
+                nameTag.Color = teamColor
+
+                tracer.Visible = true
+                tracer.From = Vector2.new(Workspace.CurrentCamera.ViewportSize.X / 2, Workspace.CurrentCamera.ViewportSize.Y)
+                tracer.To = Vector2.new(screenPos.X, screenPos.Y)
+
+                nameTag.Visible = true
+                nameTag.Text = player.Name .. " [" .. math.floor(distance) .. "m]"
+                nameTag.Position = Vector2.new(screenPos.X, screenPos.Y - 30)
+
+                healthBar.Visible = true
+                healthBar.Size = Vector2.new(50 * (humanoid.Health / humanoid.MaxHealth), 5)
+                healthBar.Position = Vector2.new(screenPos.X - 25, screenPos.Y - 20)
+                healthBar.Color = Color3.fromRGB(255 * (1 - humanoid.Health / humanoid.MaxHealth), 255 * (humanoid.Health / humanoid.MaxHealth), 0)
+            else
+                tracer.Visible = false
+                nameTag.Visible = false
+                healthBar.Visible = false
+            end
+        else
+            tracer.Visible = false
+            nameTag.Visible = false
+            healthBar.Visible = false
+        end
+    end
+end
+
+-- Magnet Catch Function (Improved)
+local function y6()
+    if not x7 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    local football = Workspace:FindFirstChild("Football")
+    if not football then return end
+
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Left Arm") then
+        local distance = (LocalPlayer.Character["Left Arm"].Position - football.Position).Magnitude
+        if distance < (x8 * x32) then -- Adjusted by Stealth Level
+            if math.random() > 0.9 then
+                task.wait(math.random(0.01, 0.05))
+                firetouchinterest(LocalPlayer.Character["Left Arm"], football, 0)
+                task.wait()
+                firetouchinterest(LocalPlayer.Character["Left Arm"], football, 1)
+            end
+        end
+    end
+end
+
+-- Speed Boost Function (Improved)
+local function y7()
+    if not x9 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+        local humanoid = LocalPlayer.Character.Humanoid
+        local moveDirection = humanoid.MoveDirection
+        if moveDirection.Magnitude > 0 then
+            LocalPlayer.Character.HumanoidRootPart.Velocity = moveDirection * (x10 * x32) -- Adjusted by Stealth Level
+        end
+    end
+end
+
+-- Infinite Jump Function
+local function y8()
+    if not x11 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    UserInputService.JumpRequest:Connect(function()
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+        end
+    end)
+end
+
+-- Auto Catch Function (Improved)
+local function y9()
+    if not x12 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    local football = Workspace:FindFirstChild("Football")
+    if not football then return end
+
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Left Arm") then
+        local distance = (LocalPlayer.Character["Left Arm"].Position - football.Position).Magnitude
+        if distance < 15 then
+            local success = false
+            for _ = 1, 3 do
+                task.wait(math.random(0.01, 0.05))
+                firetouchinterest(LocalPlayer.Character["Left Arm"], football, 0)
+                task.wait()
+                firetouchinterest(LocalPlayer.Character["Left Arm"], football, 1)
+                if football.Parent ~= Workspace then
+                    success = true
+                    break
+                end
+                task.wait(0.1)
+            end
+            if not success and x24 then
+                Rayfield:Notify({
+                    Title = "Debug: Auto Catch Failed",
+                    Content = "Failed to catch the ball after 3 attempts.",
+                    Duration = 3
+                })
+            end
+        end
+    end
+end
+
+-- Tackle Aimbot Function (Improved)
+local function y10()
+    if not x13 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    local closestPlayer = y1(true)
+    if not closestPlayer or not closestPlayer.Character then return end
+
+    local targetPart = closestPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not targetPart then return end
+
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local currentCFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
+        local targetCFrame = CFrame.new(targetPart.Position + Vector3.new(math.random(-1, 1), 0, math.random(-1, 1)))
+        LocalPlayer.Character.HumanoidRootPart.CFrame = currentCFrame:Lerp(targetCFrame, 0.5 * x32) -- Adjusted by Stealth Level
+    end
+end
+
+-- No Clip Function (Improved)
+local function y11()
+    if not x14 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    if LocalPlayer.Character then
+        for _, part in pairs(LocalPlayer.Character:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end
+end
+
+-- Fake Lag Function (Improved)
+local function y12()
+    if not x15 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local rootPart = LocalPlayer.Character.HumanoidRootPart
+        if math.random() < (x16 * x32) then -- Adjusted by Stealth Level
+            rootPart.Anchored = true
+            task.wait(math.random(0.05, 0.15))
+            rootPart.Anchored = false
+        end
+    end
+end
+
+-- Auto Dodge Function (Improved)
+local function y13()
+    if not x18 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local distance = (LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+            if distance < 10 then
+                local dodgeDirection = (LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Unit
+                LocalPlayer.Character.HumanoidRootPart.Velocity = dodgeDirection * (50 * x32) -- Adjusted by Stealth Level
+            end
+        end
+    end
+end
+
+-- Ball Prediction Function (Improved)
+local function y14()
+    if not x19 or x17 or not IsGameActive() then return end
+
+    local football = Workspace:FindFirstChild("Football")
+    if not football then return end
+
+    local predictionLine = Drawing.new("Line")
+    predictionLine.Visible = true
+    predictionLine.Color = Color3.fromRGB(0, 255, 255)
+    predictionLine.Thickness = 2
+
+    local startPos = football.Position
+    local velocity = football.Velocity
+    local endPos = startPos + velocity * 0.5
+
+    local startScreen, onScreenStart = Workspace.CurrentCamera:WorldToViewportPoint(startPos)
+    local endScreen, onScreenEnd = Workspace.CurrentCamera:WorldToViewportPoint(endPos)
+
+    if onScreenStart and onScreenEnd then
+        predictionLine.From = Vector2.new(startScreen.X, startScreen.Y)
+        predictionLine.To = Vector2.new(endScreen.X, endScreen.Y)
+    else
+        predictionLine.Visible = false
+    end
+
+    task.delay(0.5, function()
+        predictionLine:Remove()
+    end)
+end
+
+-- Auto Play Function
+local function y15()
+    if not x25 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    local football = Workspace:FindFirstChild("Football")
+    if football then
+        if football.Parent == LocalPlayer.Character then
+            local closestPlayer = y1(true)
+            if closestPlayer and closestPlayer.Character then
+                local targetPart = closestPlayer.Character:FindFirstChild("Head")
+                if targetPart then
+                    local aimDirection = (targetPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Unit
+                    football.Velocity = aimDirection * (100 * x32) -- Adjusted by Stealth Level
+                end
+            end
+        else
+            if x26 == "Aggressive" then
+                y10()
+            end
+            y6()
+        end
+    end
+end
+
+-- Human Behavior Simulator
+local function y16()
+    if not x28 or x17 or not IsGameActive() then return end
+
+    if math.random() < x33 then -- Adjusted by Human Behavior Frequency
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            local action = math.random(1, 3)
+            if action == 1 then
+                LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+            elseif action == 2 then
+                LocalPlayer.Character.Humanoid:Move(Vector3.new(math.random(-1, 1), 0, math.random(-1, 1)))
+            elseif action == 3 then
+                -- Simulate a random look-around (requires exploit-specific API)
+            end
+        end
+    end
+end
+
+-- Cleanup Function for Memory Management
+local function y17()
+    for player, tracer in pairs(x20) do
+        if not Players:GetPlayerByUserId(player.UserId) then
+            tracer:Remove()
+            x20[player] = nil
+        end
+    end
+    for player, name in pairs(x21) do
+        if not Players:GetPlayerByUserId(player.UserId) then
+            name:Remove()
+            x21[player] = nil
+        end
+    end
+    for player, bar in pairs(x22) do
+        if not Players:GetPlayerByUserId(player.UserId) then
+            bar:Remove()
+            x22[player] = nil
+        end
+    end
+end
+
+-- FOV Circle Function
+local function y18()
+    if not x35 or x17 then return end
+
+    local fovCircle = Drawing.new("Circle")
+    fovCircle.Visible = true
+    fovCircle.Radius = x3
+    fovCircle.Color = Color3.fromRGB(255, 255, 255)
+    fovCircle.Thickness = 1
+    fovCircle.Transparency = x36
+    fovCircle.Position = Vector2.new(Workspace.CurrentCamera.ViewportSize.X / 2, Workspace.CurrentCamera.ViewportSize.Y / 2)
+
+    task.delay(0.1, function()
+        fovCircle:Remove()
+    end)
+end
+
+-- Teleport to Ball Function
+local function y19()
+    if not x37 or x17 or not IsGameActive() then return end
+    if x23 and IsSpectated() then return end
+
+    local football = Workspace:FindFirstChild("Football")
+    if not football then return end
+
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        local currentCFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
+        local targetCFrame = CFrame.new(football.Position + Vector3.new(0, 5, 0)) -- Teleport slightly above
+        LocalPlayer.Character.HumanoidRootPart.CFrame = currentCFrame:Lerp(targetCFrame, x38 * x32) -- Adjusted by Stealth Level
+    end
+end
+
+-- In-Game Overlay
+local function y20()
+    if not x29 then return end
+
+    local overlay = Drawing.new("Text")
+    overlay.Visible = true
+    overlay.Size = 16
+    overlay.Center = true
+    overlay.Outline = true
+    overlay.Font = Drawing.Fonts.Plex
+    overlay.Color = Color3.fromRGB(255, 255, 255)
+    overlay.Position = Vector2.new(Workspace.CurrentCamera.ViewportSize.X - 100, 50)
+    overlay.Text = "Aimbot: " .. (x1 and "ON" or "OFF") .. "\nESP: " .. (x6 and "ON" or "OFF") .. "\nPanic: " .. (x17 and "ON" or "OFF")
+
+    task.delay(0.1, function()
+        overlay:Remove()
+    end)
+end
+
+-- Dashboard Tab Features
+DashboardTab:CreateSection("Live Stats")
+
+DashboardTab:CreateLabel({
+    Name = "Successful Catches: 0" -- Placeholder, requires tracking logic
+})
+
+DashboardTab:CreateLabel({
+    Name = "Successful Tackles: 0" -- Placeholder, requires tracking logic
+})
+
+DashboardTab:CreateLabel({
+    Name = "Aimbot Accuracy: 0%" -- Placeholder, requires tracking logic
+})
+
+DashboardTab:CreateSection("Stat Tracking Settings")
+
+DashboardTab:CreateSlider({
+    Name = "Min Catch Distance",
+    Range = {5, 50},
+    Increment = 1,
+    CurrentValue = 10,
+    Callback = function(Value)
+        -- Placeholder: Use this value to determine what counts as a "successful catch"
+    end
+})
+
+-- Main Tab Features
+MainTab:CreateSection("Main Features")
+
+MainTab:CreateToggle({
+    Name = "Magnet Catch",
+    CurrentValue = false,
+    Callback = function(Value)
+        x7 = Value
+    end
+})
+
+MainTab:CreateSlider({
+    Name = "Magnet Strength",
+    Range = {5, 50},
+    Increment = 1,
+    CurrentValue = 10,
+    Callback = function(Value)
+        x8 = Value
+    end
+})
+
+MainTab:CreateToggle({
+    Name = "Auto Catch",
+    CurrentValue = false,
+    Callback = function(Value)
+        x12 = Value
+    end
+})
+
+MainTab:CreateSection("Feature Intensity")
+
+MainTab:CreateSlider({
+    Name = "Magnet Catch Intensity",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 1,
+    Callback = function(Value)
+        -- Placeholder: Use this value to scale Magnet Catch effectiveness
+    end
+})
+
+MainTab:CreateSlider({
+    Name = "Auto Catch Intensity",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 1,
+    Callback = function(Value)
+        -- Placeholder: Use this value to scale Auto Catch effectiveness
+    end
+})
+
+-- Aimbot Tab Features
+AimbotTab:CreateSection("Quarterback Aimbot")
+
+AimbotTab:CreateToggle({
+    Name = "Enable Aimbot",
+    CurrentValue = false,
+    Callback = function(Value)
+        x1 = Value
+    end
+})
+
+AimbotTab:CreateDropdown({
+    Name = "Aimbot Mode",
+    Options = {"Legit", "Blatant"},
+    CurrentOption = "Blatant",
+    Callback = function(Value)
+        x2 = Value
+    end
+})
+
+AimbotTab:CreateSlider({
+    Name = "Aimbot FOV",
+    Range = {50, 200},
+    Increment = 10,
+    CurrentValue = 100,
+    Callback = function(Value)
+        x3 = Value
+    end
+})
+
+AimbotTab:CreateSlider({
+    Name = "Aimbot Smoothness (Legit Mode)",
+    Range = {0.05, 1},
+    Increment = 0.05,
+    CurrentValue = 0.1,
+    Callback = function(Value)
+        x4 = Value
+    end
+})
+
+AimbotTab:CreateToggle({
+    Name = "Silent Aim",
+    CurrentValue = false,
+    Callback = function(Value)
+        x5 = Value
+    end
+})
+
+AimbotTab:CreateSection("Tackle Aimbot")
+
+AimbotTab:CreateToggle({
+    Name = "Enable Tackle Aimbot",
+    CurrentValue = false,
+    Callback = function(Value)
+        x13 = Value
+    end
+})
+
+AimbotTab:CreateSection("Player Targeting")
+
+AimbotTab:CreateInput({
+    Name = "Target Player",
+    PlaceholderText = "Enter player name",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        table.insert(x27, Value)
+        Rayfield:Notify({
+            Title = "Player Targeted",
+            Content = Value .. " added to target list.",
+            Duration = 3
+        })
+    end
+})
+
+AimbotTab:CreateButton({
+    Name = "Clear Targets",
+    Callback = function()
+        x27 = {}
+        Rayfield:Notify({
+            Title = "Targets Cleared",
+            Content = "Target list cleared.",
+            Duration = 3
+        })
+    end
+})
+
+AimbotTab:CreateSection("Visuals")
+
+AimbotTab:CreateToggle({
+    Name = "FOV Circle",
+    CurrentValue = false,
+    Callback = function(Value)
+        x35 = Value
+    end
+})
+
+AimbotTab:CreateSlider({
+    Name = "FOV Circle Opacity",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 1,
+    Callback = function(Value)
+        x36 = Value
+    end
+})
+
+AimbotTab:CreateSection("Feature Intensity")
+
+AimbotTab:CreateSlider({
+    Name = "Aimbot Intensity",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 1,
+    Callback = function(Value)
+        -- Placeholder: Use this value to scale Aimbot effectiveness
+    end
+})
+
+AimbotTab:CreateSlider({
+    Name = "Tackle Aimbot Intensity",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 1,
+    Callback = function(Value)
+        -- Placeholder: Use this value to scale Tackle Aimbot effectiveness
+    end
+})
+
+-- ESP Tab Features
+ESPTab:CreateSection("ESP Settings")
+
+ESPTab:CreateToggle({
+    Name = "Enable ESP",
+    CurrentValue = false,
+    Callback = function(Value)
+        x6 = Value
+    end
+})
+
+ESPTab:CreateSlider({
+    Name = "ESP Range",
+    Range = {50, 500},
+    Increment = 10,
+    CurrentValue = 100,
+    Callback = function(Value)
+        x30 = Value
+    end
+})
+
+ESPTab:CreateSection("Visuals")
+
+ESPTab:CreateSlider({
+    Name = "ESP Line Thickness",
+    Range = {1, 5},
+    Increment = 1,
+    CurrentValue = 2,
+    Callback = function(Value)
+        x39 = Value
+    end
+})
+
+ESPTab:CreateSlider({
+    Name = "ESP Text Size",
+    Range = {10, 30},
+    Increment = 1,
+    CurrentValue = 16,
+    Callback = function(Value)
+        x40 = Value
+    end
+})
+
+ESPTab:CreateSlider({
+    Name = "ESP Transparency",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 1,
+    Callback = function(Value)
+        x41 = Value
+    end
+})
+
+-- Player Mods Tab Features
+PlayerModsTab:CreateSection("Player Modifications")
+
+PlayerModsTab:CreateToggle({
+    Name = "Speed Boost",
+    CurrentValue = false,
+    Callback = function(Value)
+        x9 = Value
+        if not Value and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        end
+    end
+})
+
+PlayerModsTab:CreateSlider({
+    Name = "Speed Boost Value",
+    Range = {16, 100},
+    Increment = 1,
+    CurrentValue = 50,
+    Callback = function(Value)
+        x10 = Value
+    end
+})
+
+PlayerModsTab:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Callback = function(Value)
+        x11 = Value
+    end
+})
+
+PlayerModsTab:CreateToggle({
+    Name = "No Clip",
+    CurrentValue = false,
+    Callback = function(Value)
+        x14 = Value
+    end
+})
+
+PlayerModsTab:CreateToggle({
+    Name = "Auto Dodge",
+    CurrentValue = false,
+    Callback = function(Value)
+        x18 = Value
+    end
+})
+
+PlayerModsTab:CreateToggle({
+    Name = "Ball Prediction",
+    CurrentValue = false,
+    Callback = function(Value)
+        x19 = Value
+    end
+})
+
+PlayerModsTab:CreateSection("Teleport Features")
+
+PlayerModsTab:CreateToggle({
+    Name = "Teleport to Ball",
+    CurrentValue = false,
+    Callback = function(Value)
+        x37 = Value
+    end
+})
+
+PlayerModsTab:CreateSlider({
+    Name = "Teleport Smoothness",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 0.5,
+    Callback = function(Value)
+        x38 = Value
+    end
+})
+
+PlayerModsTab:CreateSection("Auto Play")
+
+PlayerModsTab:CreateToggle({
+    Name = "Enable Auto Play",
+    CurrentValue = false,
+    Callback = function(Value)
+        x25 = Value
+    end
+})
+
+PlayerModsTab:CreateDropdown({
+    Name = "Auto Play Mode",
+    Options = {"Safe", "Aggressive"},
+    CurrentOption = "Safe",
+    Callback = function(Value)
+        x26 = Value
+    end
+})
+
+PlayerModsTab:CreateSection("Feature Intensity")
+
+PlayerModsTab:CreateSlider({
+    Name = "Speed Boost Intensity",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 1,
+    Callback = function(Value)
+        -- Placeholder: Use this value to scale Speed Boost effectiveness
+    end
+})
+
+PlayerModsTab:CreateSlider({
+    Name = "Auto Dodge Intensity",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 1,
+    Callback = function(Value)
+        -- Placeholder: Use this value to scale Auto Dodge effectiveness
+    end
+})
+
+-- Anti-Detection Tab Features
+AntiDetectionTab:CreateSection("Anti-Detection Features")
+
+AntiDetectionTab:CreateToggle({
+    Name = "Fake Lag",
+    CurrentValue = false,
+    Callback = function(Value)
+        x15 = Value
+    end
+})
+
+AntiDetectionTab:CreateSlider({
+    Name = "Fake Lag Intensity",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 0.1,
+    Callback = function(Value)
+        x16 = Value
+    end
+})
+
+AntiDetectionTab:CreateToggle({
+    Name = "Anti-Spectator Detection",
+    CurrentValue = false,
+    Callback = function(Value)
+        x23 = Value
+    end
+})
+
+AntiDetectionTab:CreateToggle({
+    Name = "Human Behavior Simulator",
+    CurrentValue = false,
+    Callback = function(Value)
+        x28 = Value
+    end
+})
+
+AntiDetectionTab:CreateKeybind({
+    Name = "Panic Button (Disable All)",
+    CurrentKeybind = "P",
+    Callback = function(Key)
+        x17 = not x17
+        if x17 then
+            x1 = false
+            x5 = false
+            x6 = false
+            x7 = false
+            x9 = false
+            x11 = false
+            x12 = false
+            x13 = false
+            x14 = false
+            x15 = false
+            x18 = false
+            x19 = false
+            x25 = false
+            x37 = false
+            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                LocalPlayer.Character.Humanoid.WalkSpeed = 16
+            end
+            Rayfield:Notify({
+                Title = "Panic Mode Enabled",
+                Content = "All cheats disabled for safety.",
+                Duration = 5
+            })
+        else
+            Rayfield:Notify({
+                Title = "Panic Mode Disabled",
+                Content = "Re-enable features as needed.",
+                Duration = 5
+            })
+        end
+    end
+})
+
+AntiDetectionTab:CreateSection("Stealth Settings")
+
+AntiDetectionTab:CreateSlider({
+    Name = "Stealth Level",
+    Range = {0.1, 1},
+    Increment = 0.1,
+    CurrentValue = 0.5,
+    Callback = function(Value)
+        x32 = Value
+    end
+})
+
+AntiDetectionTab:CreateSlider({
+    Name = "Human Behavior Frequency",
+    Range = {0.01, 0.5},
+    Increment = 0.01,
+    CurrentValue = 0.1,
+    Callback = function(Value)
+        x33 = Value
+    end
+})
+
+AntiDetectionTab:CreateSlider({
+    Name = "Safety Threshold",
+    Range = {10, 100},
+    Increment = 10,
+    CurrentValue = 50,
+    Callback = function(Value)
+        x34 = Value
+    end
+})
+
+-- Settings Tab Features
+SettingsTab:CreateSection("GUI Settings")
+
+SettingsTab:CreateDropdown({
+    Name = "Theme",
+    Options = {"Default", "Dark", "Light"},
+    CurrentOption = "Default",
+    Callback = function(Value)
+        if Value == "Dark" then
+            Rayfield:SetTheme("Dark")
+        elseif Value == "Light" then
+            Rayfield:SetTheme("Light")
+        else
+            Rayfield:SetTheme("Default")
+        end
+    end
+})
+
+SettingsTab:CreateButton({
+    Name = "Save Config",
+    Callback = function()
+        Rayfield:SaveConfiguration()
+        Rayfield:Notify({
+            Title = "Config Saved",
+            Content = "Your settings have been saved.",
+            Duration = 5
+        })
+    end
+})
+
+SettingsTab:CreateButton({
+    Name = "Load Config",
+    Callback = function()
+        Rayfield:LoadConfiguration()
+        Rayfield:Notify({
+            Title = "Config Loaded",
+            Content = "Your settings have been loaded.",
+            Duration = 5
+        })
+    end
+})
+
+SettingsTab:CreateToggle({
+    Name = "Debug Mode",
+    CurrentValue = false,
+    Callback = function(Value)
+        x24 = Value
+    end
+})
+
+SettingsTab:CreateToggle({
+    Name = "In-Game Overlay",
+    CurrentValue = false,
+    Callback = function(Value)
+        x29 = Value
+    end
+})
+
+SettingsTab:CreateSection("Performance")
+
+SettingsTab:CreateToggle({
+    Name = "Performance Mode",
+    CurrentValue = false,
+    Callback = function(Value)
+        x43 = Value
+        if Value then
+            x30 = 50 -- Reduce ESP Range
+            x42 = 0.2 -- Reduce Update Frequency
+            Rayfield:Notify({
+                Title = "Performance Mode Enabled",
+                Content = "Settings optimized for low-end devices.",
+                Duration = 5
+            })
+        end
+    end
+})
+
+SettingsTab:CreateSlider({
+    Name = "Update Frequency",
+    Range = {0.05, 0.5},
+    Increment = 0.05,
+    CurrentValue = 0.1,
+    Callback = function(Value)
+        x42 = Value
+    end
+})
+
+SettingsTab:CreateSection("Profiles")
+
+SettingsTab:CreateInput({
+    Name = "Save Profile",
+    PlaceholderText = "Enter profile name",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Value)
+        x31[Value] = Rayfield:GetConfiguration()
+        Rayfield:Notify({
+            Title = "Profile Saved",
+            Content = "Profile '" .. Value .. "' saved.",
+            Duration = 5
+        })
+    end
+})
+
+SettingsTab:CreateDropdown({
+    Name = "Load Profile",
+    Options = function()
+        local options = {}
+        for name in pairs(x31) do
+            table.insert(options, name)
+        end
+        return options
+    end,
+    CurrentOption = "",
+    Callback = function(Value)
+        Rayfield:LoadConfiguration(x31[Value])
+        Rayfield:Notify({
+            Title = "Profile Loaded",
+            Content = "Profile '" .. Value .. "' loaded.",
+            Duration = 5
+        })
+    end
+})
+
+-- Key Binds Section
+KeyBindsTab:CreateSection("Custom Key Binds")
+
+KeyBindsTab:CreateKeybind({
+    Name = "Toggle Aimbot",
+    CurrentKeybind = "Q",
+    Callback = function(Key)
+        x1 = not x1
+        Rayfield:Notify({
+            Title = "Aimbot Toggled",
+            Content = "Aimbot is now " .. (x1 and "enabled" or "disabled"),
+            Duration = 3
+        })
+    end
+})
+
+KeyBindsTab:CreateKeybind({
+    Name = "Toggle ESP",
+    CurrentKeybind = "E",
+    Callback = function(Key)
+        x6 = not x6
+        Rayfield:Notify({
+            Title = "ESP Toggled",
+            Content = "ESP is now " .. (x6 and "enabled" or "disabled"),
+            Duration = 3
+        })
+    end
+})
+
+-- Run Features
+RunService.RenderStepped:Connect(function()
+    pcall(function()
+        y2() -- Quarterback Aimbot
+        y3() -- Silent Aim
+        y5() -- Update ESP
+        y10() -- Tackle Aimbot
+        y11() -- No Clip
+        y18() -- FOV Circle
+        y19() -- Teleport to Ball
+        y20() -- In-Game Overlay
+    end)
+end)
+
+RunService.Heartbeat:Connect(function()
+    pcall(function()
+        task.wait(x42) -- Adjusted by Update Frequency
+        y6() -- Magnet Catch
+        y7() -- Speed Boost
+        y9() -- Auto Catch
+        y12() -- Fake Lag
+        y13() -- Auto Dodge
+        y14() -- Ball Prediction
+        y15() -- Auto Play
+        y16() -- Human Behavior Simulator
+        y17() -- Cleanup
+    end)
+end)
+
+-- Initialize Infinite Jump
+y8()
+
+-- Handle Player Joining/Leaving for ESP
+Players.PlayerAdded:Connect(function(player)
+    y4(player)
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    if x20[player] then
+        x20[player]:Remove()
+        x20[player] = nil
+    end
+    if x21[player] then
+        x21[player]:Remove()
+        x21[player] = nil
+    end
+    if x22[player] then
+        x22[player]:Remove()
+        x22[player] = nil
+    end
+end)
+
+-- Crash Recovery
+RunService.Stepped:Connect(function()
+    if not LocalPlayer.Character or not LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        task.wait(1)
+        if x24 then
+            Rayfield:Notify({
+                Title = "Debug: Crash Recovery",
+                Content = "Character not found, waiting for respawn...",
+                Duration = 3
+            })
+        end
+    end
+end)
